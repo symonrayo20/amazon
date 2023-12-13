@@ -71,6 +71,16 @@ addtoCart.forEach((btn) => {
                 quantity: 1
             })
         }
-        console.log(cart);
+
+        let cartQuantity = 0;
+        cart.forEach(item => {
+            cartQuantity += item.quantity;
+        })
+
+        const quantity = document.querySelector(".cart-quantity");
+        quantity.innerHTML = cartQuantity;
+        
+        console.log({cartQuantity, cart});
     })
 })
+
