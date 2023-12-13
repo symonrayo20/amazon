@@ -23,7 +23,7 @@ products.forEach((product) => {
             </div>
             <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
             <div class="product-quantity-container">
-                <select>
+                <select class="js-quantity-selector-${product.id}">
                     <option selected value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -37,7 +37,7 @@ products.forEach((product) => {
                 </select>
             </div>
             <div class="product-spacer"></div>
-            <div class="added-to-cart">
+            <div class="added-to-cart added-${product.id}">
                 <img src="images/icons/checkmark.png" />
                 Added
             </div>
@@ -51,10 +51,13 @@ products.forEach((product) => {
 const productGrid = document.querySelector(".products-grid");
 productGrid.innerHTML = productHtml
 
+let interval;
 const addtoCart = document.querySelectorAll(".add-to-cart-button");
 addtoCart.forEach((btn) => {
     btn.addEventListener("click", () => {
         const productId = btn.dataset.productId;
+        const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+        clearInterval(interval);
         
         let matchingItem;
         cart.forEach(item => {
@@ -64,12 +67,9 @@ addtoCart.forEach((btn) => {
         })
 
         if (matchingItem) {
-            matchingItem.quantity += 1;
+            matchingItem.quantity += quantity;
         } else {
-            cart.push({
-                productId: productId,
-                quantity: 1
-            })
+            cart.push({ productId, quantity })
         }
 
         let cartQuantity = 0;
@@ -77,8 +77,12 @@ addtoCart.forEach((btn) => {
             cartQuantity += item.quantity;
         })
 
-        const quantity = document.querySelector(".cart-quantity");
-        quantity.innerHTML = cartQuantity;
+        document.querySelector(".cart-quantity").innerHTML = cartQuantity;
+        const added = document.querySelector(`.added-${productId}`);
+        added.style.opacity = "100";
+        interval = setTimeout(() => {
+            added.style.opacity = "0";
+        }, 2000);
         
         console.log({cartQuantity, cart});
     })
