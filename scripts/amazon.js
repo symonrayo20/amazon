@@ -41,7 +41,7 @@ products.forEach((product) => {
                 <img src="images/icons/checkmark.png" />
                 Added
             </div>
-            <button class="add-to-cart-button button-primary">
+            <button class="add-to-cart-button button-primary" data-product-id="${product.id}">
                 Add to Cart
             </button>
         </div>
@@ -50,3 +50,27 @@ products.forEach((product) => {
 
 const productGrid = document.querySelector(".products-grid");
 productGrid.innerHTML = productHtml
+
+const addtoCart = document.querySelectorAll(".add-to-cart-button");
+addtoCart.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        const productId = btn.dataset.productId;
+        
+        let matchingItem;
+        cart.forEach(item => {
+            if (item.productId === productId) {
+                matchingItem = item;
+            }
+        })
+
+        if (matchingItem) {
+            matchingItem.quantity += 1;
+        } else {
+            cart.push({
+                productId: productId,
+                quantity: 1
+            })
+        }
+        console.log(cart);
+    })
+})
