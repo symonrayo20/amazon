@@ -57,7 +57,6 @@ addtoCart.forEach((btn) => {
     btn.addEventListener("click", () => {
         const productId = btn.dataset.productId;
         const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
-        clearInterval(interval);
         
         let matchingItem;
         cart.forEach(item => {
@@ -86,5 +85,6 @@ addtoCart.forEach((btn) => {
         
         console.log({cartQuantity, cart});
     })
+    clearInterval(interval);
 })
 
