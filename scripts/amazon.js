@@ -1,4 +1,4 @@
-
+import {cart} from "../data/cart.js";
 
 let productHtml = "";
 
@@ -51,12 +51,13 @@ products.forEach((product) => {
 const productGrid = document.querySelector(".products-grid");
 productGrid.innerHTML = productHtml
 
-let interval;
 const addtoCart = document.querySelectorAll(".add-to-cart-button");
 addtoCart.forEach((btn) => {
+    let interval;
     btn.addEventListener("click", () => {
         const productId = btn.dataset.productId;
         const quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+        clearInterval(interval);
         
         let matchingItem;
         cart.forEach(item => {
@@ -85,6 +86,5 @@ addtoCart.forEach((btn) => {
         
         console.log({cartQuantity, cart});
     })
-    clearInterval(interval);
 })
 
